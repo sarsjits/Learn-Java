@@ -9,9 +9,10 @@ package com.sarsjits.java.datastructures.linkedlist;
  */
 public class LinkedList {
 
+	// For all reference types, the default value is null.
 	Node head;
 
-	class Node {
+	public static class Node {
 		int data;
 		Node next;
 
@@ -23,10 +24,12 @@ public class LinkedList {
 
 	public void printList() {
 		Node traversalNode = head;
+		System.out.print("[ ");
 		while (traversalNode != null) {
 			System.out.print(traversalNode.data + " ");
 			traversalNode = traversalNode.next;
 		}
+		System.out.print("]\n");
 	}
 
 	/**
@@ -71,11 +74,110 @@ public class LinkedList {
 	 * @param d
 	 */
 	public void insertAfterNode(Node prevNode, int d) {
-		if(prevNode == null)
+		if (prevNode == null)
 			return;
 		Node newNode = new Node(d);
 		newNode.next = prevNode.next;
 		prevNode.next = newNode;
 	}
 
+	/**
+	 * Insert the array elements into the list. This will act as a helper function
+	 * in other classes to make the coding simpler.
+	 * 
+	 * @param arr
+	 */
+	public static void insertArrayInList(int[] arr, LinkedList list) {
+		for(int a: arr)
+			list.insertAtEnd(a);
+		list.printList();
+	}
+
+	/**
+	 * Given a key, delete the node with the first occurrence of the key. Need to
+	 * have two reference, one is current and another is prev.
+	 * 
+	 * @param key
+	 */
+	public void deleteNode(int key) {
+		Node cur = head;
+		Node prev = null;
+
+		// If the head contains the key
+		if (cur != null && cur.data == key) {
+			head = head.next;
+			return;
+		}
+
+		while (cur != null && cur.data != key) {
+			prev = cur;
+			cur = cur.next;
+		}
+
+		// the key was not found
+		if (cur == null)
+			return;
+
+		prev.next = cur.next;
+	}
+
+	/**
+	 * Delete the node at given index.
+	 * 
+	 * @param idx
+	 */
+	public void deleteAtIndex(int idx) {
+		int i = 0;
+		Node tmp = head;
+		Node prev = null;
+
+		if (tmp != null && idx == 0) {
+			head = head.next;
+			return;
+		}
+
+		while (tmp != null && i != idx) {
+			prev = tmp;
+			tmp = tmp.next;
+			i++;
+		}
+
+		if (i != idx) {
+			System.out.println("Index out of bound.");
+			return;
+		}
+
+		prev.next = tmp.next;
+	}
+
+	/**
+	 * Calculates the length of the linked list iteratively
+	 * 
+	 * @return
+	 */
+	public int lengthIterative() {
+		Node tmp = head;
+		int len = 0;
+		while (tmp != null) {
+			tmp = tmp.next;
+			len++;
+		}
+		return len;
+	}
+
+	/**
+	 * Calculates the length of the linked list recursively
+	 * 
+	 * @return
+	 */
+	public int lengthRecur() {
+		Node tmp = head;
+		return getLengthRecur(tmp);
+	}
+
+	private int getLengthRecur(Node node) {
+		if (node == null)
+			return 0;
+		return 1 + getLengthRecur(node.next);
+	}
 }
