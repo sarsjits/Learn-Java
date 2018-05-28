@@ -88,7 +88,7 @@ public class LinkedList {
 	 * @param arr
 	 */
 	public static void insertArrayInList(int[] arr, LinkedList list) {
-		for(int a: arr)
+		for (int a : arr)
 			list.insertAtEnd(a);
 		list.printList();
 	}
@@ -179,5 +179,24 @@ public class LinkedList {
 		if (node == null)
 			return 0;
 		return 1 + getLengthRecur(node.next);
+	}
+
+	/**
+	 * To reverse the linked list iteratively.
+	 * 
+	 * @param list
+	 */
+	public static void reverseIteratively(LinkedList list) {
+		Node cur = list.head;
+		Node prev = null, next = null;
+		
+		while(cur != null) {
+			next = cur.next;
+			cur.next = prev;
+			prev = cur;
+			cur = next;
+		}
+		
+		list.head = prev;
 	}
 }
